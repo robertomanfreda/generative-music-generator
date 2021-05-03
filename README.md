@@ -1,10 +1,19 @@
 # GOL-GMG 
 ## Game Of Life - Generative Music Generator
-GOL-GMG is a Javascript application that implements the Game Of Life rules. Make generative-music using web-based GUI.
+GOL-GMG is a Javascript application that implements the Game Of Life rules.  
+Make generative-music using web-based GUI.
 
 ---
 
-![](repo/GOL-GMG.gif)
+![](static/GOL-GMG.gif)
+
+---
+
+# RUN LOCALLY
+
+Go into the project directory `cd generative-music-generator`   
+Run a local server `python3 -m http.server 8080`   
+In your browser go to http://localhost:8080  
 
 ---
 

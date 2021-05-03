@@ -1,4 +1,4 @@
-class Cell {
+export class Cell {
     constructor(context, x, y, w, h) {
         this._context = context;
         this._x = x;

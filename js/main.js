@@ -1,3 +1,5 @@
+import {Cell} from './cell.js'
+
 const world = document.getElementById("world");
 const context = world.getContext("2d");
 
