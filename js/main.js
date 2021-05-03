@@ -3,42 +3,46 @@ import {Cell} from './cell.js'
 const world = document.getElementById("world");
 const context = world.getContext("2d");
 
-//context.canvas.width = window.innerWidth;
-//context.canvas.height = window.innerHeight;
-//const worldW = window.innerWidth;
-//const worldH = window.innerHeight;
-
-const size = 250;
-
-context.canvas.width = size;
-context.canvas.height = size;
-const worldW = size;
-const worldH = size;
-
+const worldWidth = 250;
+const worldHeight = 250;
 const cellWidth = 10;
 const cellHeight = 10;
 
-let cells = [];
+const targetCells = (worldWidth * worldHeight) / 100;
+let actualCells = 0;
+
+context.canvas.width = worldWidth;
+context.canvas.height = worldHeight;
+
+const cells = [];
 
 function init() {
+    console.log('-----');
+    console.log('Requested generation of a world with a total of  ' + targetCells + ' cells.');
+
     let currX = 0;
     let currY = 0;
 
-    for (let i = 0; currY < worldH; i++) {
-        let cell = new Cell(context, currX, currY, cellWidth, cellHeight);
+    for (let i = 0; actualCells < targetCells; i++) {
 
-        // 1st draw
-        cell.draw(true);
-
-        cells.push(cell);
+        cells.push(new Cell(context, currX, currY, cellWidth, cellHeight));
 
         currX += cellWidth;
-
-        if (currX >= worldW) {
+        if (currX >= worldWidth) {
             currY += cellHeight;
             currX = 0;
+
         }
+        actualCells++;
+
     }
+
+    console.log('Successfully generated the world with a total of ' + actualCells + ' cells.');
+    console.log('-----');
+    console.log('Cell sizes');
+    console.log('Width : ' + cellWidth + 'px');
+    console.log('Height: ' +  cellHeight + 'px');
+    console.log('-----');
 }
 
 function updateWorld() {
@@ -49,5 +53,5 @@ function updateWorld() {
 init();
 
 // Game Loop
-setInterval(updateWorld, 30);
+setInterval(updateWorld, 60);
 

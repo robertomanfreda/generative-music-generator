@@ -5,9 +5,9 @@ export class Cell {
         this._y = y;
         this._w = w;
         this._h = h;
-        this._isAlive = Math.random() < 0.5;
-        //this._isAlive = false;
-        //this.glider();
+        //this._isAlive = Math.random() < 0.5;
+        this._isAlive = false;
+        this.glider();
         this.draw();
     }
 
@@ -26,6 +26,9 @@ export class Cell {
 
     draw() {
         this._context.beginPath();
+
+        // Debug
+        this._context.rect(this._x, this._y, this._w, this._h);
 
         if (this._isAlive) {
             this._context.fillRect(this._x, this._y, this._w, this._h);
