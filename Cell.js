@@ -5,10 +5,10 @@ class Cell {
         this._y = y;
         this._w = w;
         this._h = h;
-        this._isAlive = false;
         this._isAlive = Math.random() < 0.5;
+        //this._isAlive = false;
         //this.glider();
-        this.draw(context);
+        this.draw();
     }
 
     glider() {
