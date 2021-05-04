@@ -1,8 +1,8 @@
 import {Cell} from './cell.js'
 
 // _User settings START
-const worldWidth = 500;
-const worldHeight = 500;
+const worldWidth = 250;
+const worldHeight = 250;
 const cellWidth = 10;
 const cellHeight = 10;
 const isGridVisible = true;
@@ -32,9 +32,13 @@ function init() {
 
     let currX = 0;
     let currY = 0;
+    let audioIndex = 0;
 
     for (let i = 0; actualCells < targetCells; i++) {
-        cells.push(new Cell(context, currX, currY, cellWidth, cellHeight, minOffset, maxOffset));
+        if (audioIndex === 16) audioIndex = 1;
+        else audioIndex++;
+
+        cells.push(new Cell(audioIndex, context, currX, currY, cellWidth, cellHeight, minOffset, maxOffset));
 
         if (isGridVisible) {
             context.beginPath();
@@ -76,5 +80,5 @@ function updateWorld() {
 init();
 
 // Game Loop
-setInterval(updateWorld, 60);
+setInterval(updateWorld, 1000);
 

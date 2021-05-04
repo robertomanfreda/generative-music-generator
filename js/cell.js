@@ -1,5 +1,7 @@
 export class Cell {
-    constructor(context, x, y, w, h, minOffset, maxOffset) {
+    constructor(audioIndex, context, x, y, w, h, minOffset, maxOffset) {
+        this._audio = document.createElement('audio');
+        this._audio.innerHTML = '<source src="' + 'static/synthesized-piano-notes/' + audioIndex + '.mp3' + '" type="audio/mpeg" />'
         this._context = context;
         this._x = x;
         this._y = y;
@@ -8,10 +10,10 @@ export class Cell {
         this._minOffset = minOffset;
         this._maxOffset = maxOffset;
 
-        this._isAlive = Math.random() < 0.5;
+        //this._isAlive = Math.random() < 0.5;
 
-        //this._isAlive = false;
-        //this.glider();
+        this._isAlive = false;
+        this.glider();
 
         this.draw();
     }
@@ -25,6 +27,7 @@ export class Cell {
 
         if (this._isAlive) {
             this._context.fillRect(this._x, this._y, this._w, this._h);
+            this._audio.play().then((r) => {})
         } else {
             this._context.clearRect(this._x, this._y, this._w, this._h);
         }
@@ -80,6 +83,7 @@ export class Cell {
         } else {
             this.setAlive(false);
         }
+
     }
 
     glider() {
