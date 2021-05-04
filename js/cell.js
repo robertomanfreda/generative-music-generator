@@ -83,7 +83,6 @@ export class Cell {
         } else {
             this.setAlive(false);
         }
-
     }
 
     glider() {
