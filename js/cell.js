@@ -1,10 +1,12 @@
 export class Cell {
-    constructor(context, x, y, w, h) {
+    constructor(context, x, y, w, h, minOffset, maxOffset) {
         this._context = context;
         this._x = x;
         this._y = y;
         this._w = w;
         this._h = h;
+        this._minOffset = minOffset;
+        this._maxOffset = maxOffset;
 
         this._isAlive = Math.random() < 0.5;
 
@@ -35,22 +37,25 @@ export class Cell {
         let counter = 0;
 
         try {
-            // left         =   -5      +5
-            // leftUp       =   -5      -5
-            // up           =   +5      -5
-            // rightUp      =   +15     -5
-            // right        =   +15     +5
-            // bottomRight  =   +15     +15
-            // bottom       =   +5      +15
-            // bottomLeft   =   -5      +15
-            let left = this._context.getImageData(this._x - 5, this._y + 5, this._w, this._h).data[3];
-            let leftUp = this._context.getImageData(this._x - 5, this._y - 5, this._w, this._h).data[3];
-            let up = this._context.getImageData(this._x + 5, this._y - 5, this._w, this._h).data[3];
-            let rightUp = this._context.getImageData(this._x + 15, this._y - 5, this._w, this._h).data[3];
-            let right = this._context.getImageData(this._x + 15, this._y + 5, this._w, this._h).data[3];
-            let bottomRight = this._context.getImageData(this._x + 15, this._y + 15, this._w, this._h).data[3];
-            let bottom = this._context.getImageData(this._x + 5, this._y + 15, this._w, this._h).data[3];
-            let bottomLeft = this._context.getImageData(this._x - 5, this._y + 15, this._w, this._h).data[3];
+            /*
+                left         =   -5      +5
+                leftUp       =   -5      -5
+                up           =   +5      -5
+                rightUp      =   +15     -5
+                right        =   +15     +5
+                bottomRight  =   +15     +15
+                bottom       =   +5      +15
+                bottomLeft   =   -5      +15
+            */
+
+            let left = this._context.getImageData(this._x - this._minOffset, this._y + this._minOffset, this._w, this._h).data[3];
+            let leftUp = this._context.getImageData(this._x - this._minOffset, this._y - this._minOffset, this._w, this._h).data[3];
+            let up = this._context.getImageData(this._x + this._minOffset, this._y - this._minOffset, this._w, this._h).data[3];
+            let rightUp = this._context.getImageData(this._x + this._maxOffset, this._y - this._minOffset, this._w, this._h).data[3];
+            let right = this._context.getImageData(this._x + this._maxOffset, this._y + this._minOffset, this._w, this._h).data[3];
+            let bottomRight = this._context.getImageData(this._x + this._maxOffset, this._y + this._maxOffset, this._w, this._h).data[3];
+            let bottom = this._context.getImageData(this._x + this._minOffset, this._y + this._maxOffset, this._w, this._h).data[3];
+            let bottomLeft = this._context.getImageData(this._x - this._minOffset, this._y + this._maxOffset, this._w, this._h).data[3];
 
             neighbors.push(left, leftUp, up, rightUp, right, bottomRight, bottom, bottomLeft);
 
@@ -58,14 +63,16 @@ export class Cell {
                 if (n === 255) counter++;
             });
         } catch (e) {
-            console.error('Out of table');
+            console.error('Out of table?\n' + e);
         }
 
-        /*  Rules |
-        ----------+
+        /* -----+
+        | Rules |
+        --------+
         | Any live cell with two or three live neighbours survives.
         | Any dead cell with three live neighbours becomes a live cell.
-        | All other live cells die in the next generation. Similarly, all other dead cells stay dead. */
+        | All other live cells die in the next generation. Similarly, all other dead cells stay dead.
+        +------*/
         if ((counter === 2 || counter === 3) && this._isAlive) {
             this.setAlive(true);
         } else if (counter === 3 && !this._isAlive) {

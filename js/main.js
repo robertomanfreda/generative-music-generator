@@ -12,14 +12,17 @@ const world = document.getElementById("world");
 const context = world.getContext("2d");
 
 const targetCells = (worldWidth * worldHeight) / 100;
-let actualCells = 0;
+
+const minOffset = cellWidth / 2;
+const maxOffset = cellWidth + minOffset;
 
 context.canvas.width = worldWidth;
 context.canvas.height = worldHeight;
 
-const cells = [];
 
 let iterationCounter = 0;
+let actualCells = 0;
+let cells = [];
 
 function init() {
     console.log('Started initialization process..')
@@ -31,7 +34,7 @@ function init() {
     let currY = 0;
 
     for (let i = 0; actualCells < targetCells; i++) {
-        cells.push(new Cell(context, currX, currY, cellWidth, cellHeight));
+        cells.push(new Cell(context, currX, currY, cellWidth, cellHeight, minOffset, maxOffset));
 
         if (isGridVisible) {
             context.beginPath();
