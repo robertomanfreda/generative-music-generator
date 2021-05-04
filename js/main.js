@@ -1,12 +1,15 @@
 import {Cell} from './cell.js'
 
-const world = document.getElementById("world");
-const context = world.getContext("2d");
-
-const worldWidth = 250;
-const worldHeight = 250;
+// _User settings START
+const worldWidth = 500;
+const worldHeight = 500;
 const cellWidth = 10;
 const cellHeight = 10;
+const isGridVisible = true;
+// _User settings END
+
+const world = document.getElementById("world");
+const context = world.getContext("2d");
 
 const targetCells = (worldWidth * worldHeight) / 100;
 let actualCells = 0;
@@ -28,34 +31,39 @@ function init() {
     let currY = 0;
 
     for (let i = 0; actualCells < targetCells; i++) {
-
         cells.push(new Cell(context, currX, currY, cellWidth, cellHeight));
 
+        if (isGridVisible) {
+            context.beginPath();
+            context.rect(currX, currY, cellWidth, cellHeight);
+            context.stroke();
+        }
+
         currX += cellWidth;
+
         if (currX >= worldWidth) {
             currY += cellHeight;
             currX = 0;
-
         }
-        actualCells++;
 
+        actualCells++;
     }
 
     console.log('Successfully generated the world with a total of ' + actualCells + ' cells.');
 
     console.log('\n----- WORLD SIZE -----');
     console.log('Width : ' + worldWidth + 'px');
-    console.log('Height: ' +  worldHeight + 'px');
+    console.log('Height: ' + worldHeight + 'px');
 
     console.log('\n----- CELLS SIZE -----');
     console.log('Width : ' + cellWidth + 'px');
-    console.log('Height: ' +  cellHeight + 'px');
+    console.log('Height: ' + cellHeight + 'px');
     console.log('-----');
     console.log('World generation completed.')
 }
 
 function updateWorld() {
-    cells.forEach((cell) => cell.draw());
+    cells.forEach((cell) => cell.draw(isGridVisible));
     cells.forEach((cell) => cell.update());
 
     iterationCounter++;

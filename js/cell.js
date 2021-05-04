@@ -5,30 +5,21 @@ export class Cell {
         this._y = y;
         this._w = w;
         this._h = h;
-        //this._isAlive = Math.random() < 0.5;
-        this._isAlive = false;
-        this.glider();
+
+        this._isAlive = Math.random() < 0.5;
+
+        //this._isAlive = false;
+        //this.glider();
+
         this.draw();
     }
 
-    glider() {
-        if (this._x >= 100 && this._y === 100 && this._x < 130) {
-            this._isAlive = true;
-        }
-        if (this._x === 120 && this._y === 90) {
-            this._isAlive = true;
-        }
-        if (this._x === 110 && this._y === 80) {
-            this._isAlive = true;
-        }
-
-    }
-
-    draw() {
+    draw(isGridVisible) {
         this._context.beginPath();
 
-        // Debug
-        this._context.rect(this._x, this._y, this._w, this._h);
+        if (isGridVisible) {
+            this._context.rect(this._x, this._y, this._w, this._h);
+        }
 
         if (this._isAlive) {
             this._context.fillRect(this._x, this._y, this._w, this._h);
@@ -81,6 +72,18 @@ export class Cell {
             this.setAlive(true);
         } else {
             this.setAlive(false);
+        }
+    }
+
+    glider() {
+        if (this._x >= 100 && this._y === 100 && this._x < 130) {
+            this._isAlive = true;
+        }
+        if (this._x === 120 && this._y === 90) {
+            this._isAlive = true;
+        }
+        if (this._x === 110 && this._y === 80) {
+            this._isAlive = true;
         }
     }
 
